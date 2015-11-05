@@ -3,37 +3,36 @@ Quantezza Data Foundary CLI
 1. Install golang 1.4.3
 2. Clone the project 
 
-```
-mkdir qtz-go && cd qtz-go
-git clone git@github.com/quantezza/qtz.git src/github.com/quantezza/qtz
-```
+		mkdir qtz-go && cd qtz-go
+		git clone git@github.com/quantezza/qtz.git src/github.com/quantezza/qtz
+
 
 3. Setup path.
-``` 
-    export QTZPATH=`pwd`
-    export GOPATH=`make gopath`
-    export PATH=$PATH:$QTZPATH\bin
-```
 
-4. Install deps. 
-`make init`
+		export QTZPATH=`pwd`
+		export GOPATH="${QTZPATH}:${QTZPATH}/src/github.com/openshift/origin/Godeps/_workspace"
+		export PATH=$PATH:$QTZPATH/bin
+
+
+4. Install deps. `make init`
 
 5. Build code
-```
-make
-qtz
-```
+
+		make
+		qtz
 
 
-Godep:
+
+Godep
 ---
-Ideally, we should use godep to manage dependencies like shown in the URL but it doesnot work as some packages have changed names and godep fails miserably.
+Ideally, we should use godep to manage dependencies like shown in the link below but it doesnot work. Some packages are broken and godep restore fails.
+
 (Section 2.2 in https://github.com/openshift/origin/blob/master/HACKING.md)
-So, for now we use the openshift paths.
+
+So, for now we just add openshift/Godeps/_workspace to GOPATH.
 
 ```
 go get github.com/tools/godep
-
 export GOPATH=
 go install github.com/origin/openshift
 cd $GOPATH/src/github.com/origin/openshift

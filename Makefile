@@ -33,7 +33,6 @@ init:
 build: *.go */*.go fmt
 	GOPATH=$(GOPATH) CGO_ENABLED=0 go build $(BUILDFLAGS) -o ${QTZPATH}/build/$(NAME) -a $(NAME).go
 
-
 fmt:
 	@([[ ! -z "$(FORMATTED)" ]] && printf "Fixed unformatted files:\n$(FORMATTED)") || true
 
