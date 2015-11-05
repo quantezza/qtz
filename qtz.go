@@ -1,34 +1,51 @@
 package main
 
 import (
-	"github.com/spf13/cobra"
 	occmd "github.com/openshift/origin/pkg/cmd/cli/cmd"
+	occlientcmd "github.com/openshift/origin/pkg/cmd/util/clientcmd"
+	"github.com/spf13/cobra"
+	"k8s.io/kubernetes/pkg/client/unversioned/clientcmd"
 	"os"
-	"github.com/openshift/origin/pkg/cmd/util/clientcmd"
-)
 
-func runHelp(cmd *cobra.Command, args []string) {
-	cmd.Help()
-}
+	"github.com/openshift/origin/pkg/cmd/cli/config"
+)
 
 func main() {
 	cmds := &cobra.Command{
 		Use:   "qtz",
-		Short: "gofabric8 is used to validate & deploy fabric8 components on to your Kubernetes or OpenShift environment",
-		Long: `gofabric8 is used to validate & deploy fabric8 components on to your Kubernetes or OpenShift environment
-								Find more information at http://fabric8.io.`,
-		Run: runHelp,
+		Short: "Quantezza CLI.",
+		Long:  `Quantezza Data Foundary superpowers.`,
+		//		Run: runHelp,
 	}
-
-
 
 	in, out := os.Stdin, os.Stdout
 
-	f := clientcmd.New(cmds.PersistentFlags())
+	loadingRules := config.NewOpenShiftClientConfigLoadingRules()
+	cmds.PersistentFlags().StringVar(&loadingRules.ExplicitPath, config.OpenShiftConfigFlagName, "", "Path to the config file to use for CLI requests.")
+	overrides := &clientcmd.ConfigOverrides{}
+	//	overrideFlags := clientcmd.RecommendedConfigOverrideFlags("")
+	//	//	overrideFlags.ContextOverrideFlags.Namespace.ShortName = "n"
+	//	overrideFlags.ClusterOverrideFlags.APIVersion.LongName = ""
+	//	overrideFlags.ClusterOverrideFlags.CertificateAuthority.LongName = ""
+	//	overrideFlags.ClusterOverrideFlags.CertificateAuthority.LongName = ""
+	//	overrideFlags.ContextOverrideFlags.ClusterName.LongName = ""
+	//	overrideFlags.ContextOverrideFlags.Namespace.LongName = ""
+	//
+	//	overrideFlags.AuthOverrideFlags.ClientCertificate.LongName = ""
+	//
+	//	clientcmd.BindOverrideFlags(overrides, cmds.PersistentFlags(), overrideFlags)
 
-	loginCmd := occmd.NewCmdLogin("qtz", f, in, out)
+	clientConfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(loadingRules, overrides)
+	f := occlientcmd.NewFactory(clientConfig)
 
+	fullName := "qtz"
+
+	loginCmd := occmd.NewCmdLogin(fullName, f, in, out)
 	cmds.AddCommand(loginCmd)
 
+	whoamiCmd := occmd.NewCmdWhoAmI(occmd.WhoAmIRecommendedCommandName, fullName+" "+occmd.WhoAmIRecommendedCommandName, f, out)
+	cmds.AddCommand(whoamiCmd)
+
+	cmds.AddCommand(occmd.NewCmdProject(fullName+" project", f, out))
 	cmds.Execute()
 }
