@@ -20,7 +20,7 @@ BUILDFLAGS := -ldflags \
 
 GOPATH="${QTZPATH}:${QTZPATH}/src/github.com/openshift/origin/Godeps/_workspace"
 
-all install: *.go */*.go
+all install: ${QTZPATH}/src/github.com/quantezza/qtz/*.go ${QTZPATH}/src/github.com/openshift/origin/*/*.go
 	GOPATH=$(GOPATH) GOBIN=${QTZPATH}/bin go install $(BUILDFLAGS) -a $(NAME).go
 
 init:
@@ -30,7 +30,7 @@ init:
 	git checkout -b $(OPENSHIFT_TAG) $(OPENSHIFT_TAG) && \
 	cd -
 
-build: *.go */*.go fmt
+build: ${QTZPATH}/src/github.com/quantezza/qtz/*.go ${QTZPATH}/src/github.com/openshift/origin/*/*.go fmt
 	GOPATH=$(GOPATH) CGO_ENABLED=0 go build $(BUILDFLAGS) -o ${QTZPATH}/build/$(NAME) -a $(NAME).go
 
 fmt:
