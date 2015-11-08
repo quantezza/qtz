@@ -4,7 +4,7 @@ Quantezza Data Foundary CLI
 2. Clone the project 
 
 		mkdir qtz-go && cd qtz-go
-		git clone git@github.com/quantezza/qtz.git src/github.com/quantezza/qtz
+		git clone git@github.com:quantezza/qtz.git src/github.com/quantezza/qtz
 
 
 3. Setup path.
