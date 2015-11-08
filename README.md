@@ -9,7 +9,8 @@ Quantezza Data Foundary CLI
 
 3. Setup path.
 
-		. env.sh
+		cd src/github.com/quantezza/qtz
+    . env.sh
 
 
 4. Install deps. `make init`
