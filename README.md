@@ -9,9 +9,7 @@ Quantezza Data Foundary CLI
 
 3. Setup path.
 
-		export QTZPATH=`pwd`
-		export GOPATH="${QTZPATH}:${QTZPATH}/src/github.com/openshift/origin/Godeps/_workspace"
-		export PATH=$PATH:$QTZPATH/bin
+		. env.sh
 
 
 4. Install deps. `make init`
