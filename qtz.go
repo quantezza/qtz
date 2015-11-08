@@ -14,7 +14,7 @@ func main() {
 	cmds := &cobra.Command{
 		Use:   "qtz",
 		Short: "Quantezza CLI.",
-		Long:  `Quantezza Data Foundary superpowers.`,
+		Long:  `Quantezza Data Foundry client.`,
 		//		Run: runHelp,
 	}
 
